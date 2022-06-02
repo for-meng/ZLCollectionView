@@ -92,6 +92,9 @@ typedef NS_ENUM(NSUInteger, LewScrollDirction) {
                 if (![attriture.representedElementKind isEqualToString:UICollectionElementKindSectionHeader])
                     continue;
                 NSInteger section = attriture.indexPath.section;
+                
+                //调整zIndex的位置到这里 是因为如果几个if判断失效, 会导致header的zindex为0从而被挡住
+                attriture.zIndex = 1000+section;
                 CGRect frame = attriture.frame;
                 BOOL isNeedChangeFrame = NO;
                 if (section == 0) {
@@ -99,7 +102,6 @@ typedef NS_ENUM(NSUInteger, LewScrollDirction) {
                         CGFloat offsetY = self.collectionView.contentOffset.y + self.fixTop;
                         if (offsetY > 0 && offsetY < [self.collectionHeightsArray[0] floatValue]) {
                             frame.origin.y = offsetY;
-                            attriture.zIndex = 1000+section;
                             attriture.frame = frame;
                             isNeedChangeFrame = YES;
                         }
@@ -107,7 +109,6 @@ typedef NS_ENUM(NSUInteger, LewScrollDirction) {
                         CGFloat offsetX = self.collectionView.contentOffset.y + self.fixTop;
                         if (offsetX > 0 && offsetX < [self.collectionHeightsArray[0] floatValue]) {
                             frame.origin.x = offsetX;
-                            attriture.zIndex = 1000+section;
                             attriture.frame = frame;
                             isNeedChangeFrame = YES;
                         }
@@ -118,7 +119,6 @@ typedef NS_ENUM(NSUInteger, LewScrollDirction) {
                         if (offsetY > [self.collectionHeightsArray[section-1] floatValue] &&
                             offsetY < [self.collectionHeightsArray[section] floatValue]) {
                             frame.origin.y = offsetY;
-                            attriture.zIndex = 1000+section;
                             attriture.frame = frame;
                             isNeedChangeFrame = YES;
                         }
@@ -127,7 +127,6 @@ typedef NS_ENUM(NSUInteger, LewScrollDirction) {
                         if (offsetX > [self.collectionHeightsArray[section-1] floatValue] &&
                             offsetX < [self.collectionHeightsArray[section] floatValue]) {
                             frame.origin.x = offsetX;
-                            attriture.zIndex = 1000+section;
                             attriture.frame = frame;
                             isNeedChangeFrame = YES;
                         }
